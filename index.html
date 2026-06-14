@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himanshu Dubey — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #6366f1;
+    --accent-light: #e0e7ff;
+    --text-primary: #1a1d29;
+    --text-secondary: #5b6472;
+    --text-tertiary: #9aa3b0;
+    --border: #e7e9ef;
+    --bg-sidebar: #f7f8fc;
+    --bg-page: #ffffff;
+    --radius: 12px;
+
+    --c1-bg: #ede9fe; --c1-fg: #8b5cf6; /* violet — causal */
+    --c2-bg: #e0e7ff; --c2-fg: #6366f1; /* indigo — ML */
+    --c3-bg: #ccfbf1; --c3-fg: #0d9488; /* teal — experimentation */
+    --c4-bg: #fef3c7; --c4-fg: #f59e0b; /* amber — AI agents */
+    --c5-bg: #ffe4e6; --c5-fg: #f43f5e; /* rose — semantic layer */
+    --c6-bg: #e0f2fe; --c6-fg: #0ea5e9; /* sky — meta / how this was built */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+    background: var(--bg-page);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .layout {
+    display: flex;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    border-top: 5px solid transparent;
+    border-image: linear-gradient(90deg, var(--c1-fg), var(--c2-fg), var(--c3-fg), var(--c4-fg), var(--c5-fg), var(--c6-fg)) 1;
+    padding: 1.85rem 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #6366f1 55%, #a78bfa);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+  }
+
+  .sidebar-header {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .sidebar-header:hover {
+    opacity: 0.8;
+  }
+
+  .sidebar h1 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0 0 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 8px;
+    margin: 0 -8px;
+    border-radius: 7px;
+    word-break: break-all;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .contact-item:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .contact-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .contact-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .contact-item:hover .contact-icon {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .nav h2 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    margin: 0 0 0.75rem;
+  }
+
+  .nav-section {
+    margin-bottom: 4px;
+  }
+
+  .nav-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 4px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+  }
+
+  .nav-section-title:hover {
+    background: rgba(0,0,0,0.03);
+  }
+
+  .nav-section-title .chevron {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    transition: transform 0.15s ease;
+    width: 10px;
+    flex-shrink: 0;
+  }
+
+  .nav-section.collapsed .chevron {
+    transform: rotate(-90deg);
+  }
+
+  .section-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent);
+  }
+
+  .section-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-projects {
+    overflow: hidden;
+    padding-left: 4px;
+    border-left: 1px solid var(--border);
+    margin-left: 17px;
+  }
+
+  .nav-section.collapsed .nav-projects {
+    display: none;
+  }
+
+  .nav-project {
+    display: block;
+    padding: 7px 12px 7px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    margin: 1px 0;
+    border-left: 2px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .nav-project:hover {
+    background: rgba(0,0,0,0.03);
+    color: var(--text-primary);
+  }
+
+  .nav-project.active {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+    border-left-color: var(--accent);
+    margin-left: -1px;
+    box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  /* ---------- Main content ---------- */
+  .main {
+    flex: 1;
+    padding: 2.5rem 3rem;
+    min-width: 0;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+
+  .main h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+  }
+
+  .hook {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-primary);
+    font-style: italic;
+    padding: 14px 18px;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-light);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 0 0 1.75rem;
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 0 0 2rem;
+  }
+
+  .impact-card {
+    background: var(--bg-sidebar);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .impact-card:hover {
+    transform: translateY(-3px);
+    background: var(--bg-page);
+    box-shadow: 0 10px 24px -8px color-mix(in srgb, currentColor 45%, transparent);
+  }
+
+  .impact-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: inherit;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .impact-card .label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .main h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 1.75rem 0 0.6rem;
+  }
+
+  .main p {
+    font-size: 15px;
+    color: var(--text-primary);
+    margin: 0 0 0.75rem;
+  }
+
+  .impact-heading {
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ---------- Home view ---------- */
+  .home-tagline {
+    font-size: 17px;
+    color: var(--text-secondary);
+    margin: 0 0 1.5rem;
+  }
+
+  .home-bio {
+    font-size: 15px;
+    margin: 0 0 2rem;
+    max-width: 640px;
+  }
+
+  .home-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 0 0 1rem;
+  }
+
+  .home-skill-card {
+    background: var(--bg-sidebar);
+    border-radius: var(--radius);
+    border-top: 3px solid var(--card-accent);
+    padding: 1rem 1.1rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .home-skill-card:hover {
+    transform: translateY(-3px);
+    background: var(--bg-page);
+    box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--card-accent) 45%, transparent);
+  }
+
+  .home-skill-card .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  .home-skill-card .items {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .home-hint {
+    font-size: 13.5px;
+    color: var(--text-tertiary);
+    margin-top: 2rem;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 640px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+    .main { padding: 1.75rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header" id="home-link">
+      <div class="avatar">HD</div>
+      <h1>Himanshu Dubey</h1>
+    </div>
+
+    <div class="contact">
+      <a class="contact-item" href="tel:+18609834923">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+        <span>860-983-4923</span>
+      </a>
+      <a class="contact-item" href="mailto:himanshudubey1992@gmail.com">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+        <span>himanshudubey1992@gmail.com</span>
+      </a>
+      <a class="contact-item" href="https://www.linkedin.com/in/himanshudubey1992" target="_blank" rel="noopener">
+        <span class="contact-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.001 2.5 2.5 0 0 1 0-5.001zM3 9h4v12H3zM9 9h3.6v1.7h.05c.5-.95 1.7-1.95 3.5-1.95 3.75 0 4.45 2.45 4.45 5.65V21h-4v-5.6c0-1.35-.025-3.1-1.9-3.1-1.9 0-2.2 1.5-2.2 3v5.7H9z"/></svg></span>
+        <span>linkedin.com/in/himanshudubey1992</span>
+      </a>
+    </div>
+
+    <nav class="nav" id="nav">
+      <h2>Projects</h2>
+      <!-- populated by JS -->
+    </nav>
+  </aside>
+
+  <main class="main" id="main">
+    <!-- populated by JS -->
+  </main>
+
+</div>
+
+<script>
+const icons = {
+  scale: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 7l-3 5a3 3 0 0 0 6 0l-3-5zM19 7l-3 5a3 3 0 0 0 6 0l-3-5zM5 7h14M9 21h6"/></svg>',
+  cpu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>',
+  flask: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6M10 2v6.5L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 8.5V2M7 15h10"/></svg>',
+  robot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4M9 4h6M9 13v2M15 13v2"/></svg>',
+  layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg>',
+  barChart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>',
+  pieChart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10l8.5 5A10 10 0 1 1 12 2z"/></svg>',
+  sparkles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M4 12h4M16 12h4M6.3 6.3l2.1 2.1M15.6 15.6l2.1 2.1M17.7 6.3l-2.1 2.1M8.4 15.6l-2.1 2.1"/><circle cx="12" cy="12" r="2.5"/></svg>'
+};
+
+function iconBadge(color, icon) {
+  return '<span class="section-icon" style="background:var(--' + color + '-bg);color:var(--' + color + '-fg)">' + icons[icon] + '</span>';
+}
+
+const sections = [
+  {
+    name: "Causal Inference & Impact Studies",
+    color: "c1",
+    icon: "scale",
+    projects: ["causal-study"]
+  },
+  {
+    name: "ML & Predictive Models",
+    color: "c2",
+    icon: "cpu",
+    projects: ["propensity-model"]
+  },
+  {
+    name: "Experimentation & Growth",
+    color: "c3",
+    icon: "flask",
+    projects: ["cross-sell-experiment", "contact-import-prompt", "email-report-banner"]
+  },
+  {
+    name: "AI Workflow Agents",
+    color: "c4",
+    icon: "robot",
+    projects: ["weekly-ai-agent", "opportunity-sizing-skill"]
+  },
+  {
+    name: "MCP Semantic Layer",
+    color: "c5",
+    icon: "layers",
+    projects: ["semantic-layer"]
+  },
+  {
+    name: "How This Site Was Built",
+    color: "c6",
+    icon: "sparkles",
+    projects: ["ai-built-portfolio"]
+  }
+];
+
+const sectionColor = {};
+sections.forEach(s => sectionColor[s.name] = s.color);
+
+const projects = {
+  "causal-study": {
+    title: "SMS Adoption Causal Study",
+    section: "Causal Inference & Impact Studies",
+    hook: "SMS was a new product at Mailchimp, still early in its growth. To position it in the company's strategy, we needed to answer one question: does SMS actually grow the business, or are already-successful customers just more likely to try it? This causal study answered that — and the result repositioned SMS as a core growth lever.",
+    problem: "Comparing SMS buyers to non-buyers directly would have been misleading — customers who chose to buy SMS were already more active and higher-spending before they ever made that purchase. A simple before/after comparison would have credited SMS for revenue that was already on its way.",
+    whatIDid: "I used coarsened exact matching to find non-SMS customers who looked statistically identical to SMS buyers across 11 pre-purchase characteristics — account age, list size, prior revenue, email and automation activity, and more. This produced a matched comparison group of 522K non-SMS users for roughly 13,500 first-time SMS buyers. I then measured the change in revenue before and after the purchase moment for both groups, focusing specifically on non-SMS revenue — the cleanest test of whether SMS adoption changes broader customer behavior.",
+    results: "SMS adoption caused a 79% lift in 90-day revenue for buyers versus their matched counterparts. Even when SMS spend itself was excluded entirely, those customers still spent 28% more across the rest of Mailchimp — more email plan upgrades, more automation usage, more overall engagement.",
+    impact: [
+      { value: "+79%", label: "90-day revenue lift" },
+      { value: "+28%", label: "Non-SMS spend lift" },
+      { value: "522K", label: "Users matched" }
+    ]
+  },
+  "propensity-model": {
+    title: "SMS Adoption Propensity Model",
+    section: "ML & Predictive Models",
+    hook: "I built a machine learning model that became the engine behind Mailchimp's SMS growth strategy — it told the product team who to target, when, and where, and directly informed five product experiments projected to bring in $4.8M over 12 months.",
+    problem: "SMS penetration had plateaued at roughly 3% of about 1 million eligible paid customers. The team had no way to proactively identify which customers were ready to adopt SMS, or when and where to reach them — growth depended entirely on customers discovering the product themselves.",
+    whatIDid: "I built an XGBoost-based propensity model to predict which customers were most likely to start an SMS application — chosen deliberately over predicting a completed purchase, since application start is the earliest and most actionable signal of intent. The model was trained on roughly 243,000 examples using 700+ behavioral and account signals, including custom features like the share of a customer's contacts with phone numbers, recent ecommerce activity, and signals from onboarding. I used SHAP analysis to translate the model's output into specific, actionable recommendations for product, marketing, and sales teams — not just a score, but a 'why'.",
+    results: "The model achieved 82% AUC with a 1.4–1.6x lift over baseline targeting and was deployed to score the full eligible customer base on an ongoing basis. Its findings — including which moments and segments carried the highest propensity — directly seeded five downstream product experiments, projected to deliver $4.8M in revenue over 12 months.",
+    impact: [
+      { value: "82%", label: "Model AUC" },
+      { value: "$4.8M", label: "Projected revenue (5 experiments)" },
+      { value: "~1M", label: "Customers scored" }
+    ]
+  },
+  "cross-sell-experiment": {
+    title: "SMS Cross-Sell Onboarding Experiment",
+    section: "Experimentation & Growth",
+    hook: "The causal study showed SMS adoption pulls customers deeper into Mailchimp — they end up spending 28% more on everything else. That raised the next question: how do we get more customers to adopt? The propensity model pointed to the moment, and this experiment tested it — driving a projected $2.3M in 12-month revenue.",
+    problem: "Two patterns stood out in the data: customers are most open to trying a new product in the first few weeks after signing up, and over half of all SMS signups already happen on the same day as a customer's first Mailchimp purchase. The opportunity was to meet customers at that exact moment, but no such prompt existed.",
+    whatIDid: "I designed and ran a multi-variant A/B test that added an SMS signup prompt at the end of the onboarding flow, immediately after a customer completed their plan purchase. One variant showed the prompt only to customers who had already expressed interest in SMS; a second showed it to all customers with general marketing intent. Both were compared against a no-prompt control, sized for roughly 5,000 users per arm over 35 days, with revenue, SMS attach rate, and core onboarding metrics as guardrails.",
+    results: "The broadly-shown variant nearly doubled SMS attach rate (from 6% to 11%, 96% probability to beat control) and lifted 14-day revenue per user by 11%, with onboarding completion holding flat — no disruption to the core experience. The most interesting finding: 69% of the revenue lift came from non-SMS Mailchimp revenue, not SMS itself, directly confirming the causal study's finding under controlled conditions. This variant was rolled out as the new default experience.",
+    impact: [
+      { value: "6% → 11%", label: "SMS attach rate (+82% relative)" },
+      { value: "+11%", label: "14-day revenue per user" },
+      { value: "$2.3M", label: "Projected 12-month impact" },
+      { value: "69%", label: "Lift from non-SMS revenue" }
+    ]
+  },
+  "contact-import-prompt": {
+    title: "Contact Import SMS Prompt",
+    section: "Experimentation & Growth",
+    hook: "The propensity model's analysis pointed to one segment Mailchimp had never targeted: customers who had just imported a contact list full of phone numbers but had never been shown SMS. 97% of them had never seen the offer.",
+    problem: "The propensity model flagged “share of contacts with phone numbers” as one of the strongest predictors of SMS adoption — but there was no moment in the product where that signal was acted on. The instant a customer imports a phone-number-rich contact list is also the instant they're most ready for SMS, and that moment was being missed entirely.",
+    whatIDid: "I designed an A/B test that added an SMS signup prompt to the contact-import confirmation screen, shown only when the imported contacts included phone numbers. The test ran for 18 days across roughly 80,000 users per arm, with SMS purchase rate as the primary metric and import completion tracked as a guardrail to ensure the new prompt didn't disrupt the core import flow.",
+    results: "The variant was a clear winner — a 35% relative lift in SMS purchase rate with 94% probability to beat control, projected at $400K in 12-month revenue, with no negative impact on import completion. I also identified that engagement with the prompt declined for customers who saw it on repeat imports, and adjusted the revenue projection downward to reflect a realistic steady-state rate rather than the initial peak.",
+    impact: [
+      { value: "+35%", label: "SMS purchase rate lift" },
+      { value: "$400K", label: "Projected 12-month revenue" },
+      { value: "97%", label: "Of segment previously unreached" }
+    ]
+  },
+  "email-report-banner": {
+    title: "Email Report Recommendation Banner",
+    section: "Experimentation & Growth",
+    hook: "Built on an earlier win that drove a 35% lift in SMS signups, this experiment tested whether elevating and personalizing an SMS recommendation banner on the email performance report could push adoption even further.",
+    problem: "An earlier test had already shown that surfacing SMS as a 'next step' when customers review their email campaign results drove a 35% lift in signups. The open question was whether making that recommendation more prominent — and tailoring it to each customer's own audience data — could amplify the effect further.",
+    whatIDid: "I ran a multi-variant A/B test on the email performance report page. One variant simply repositioned the existing SMS banner higher on the page, above the core campaign metrics. A second variant kept that repositioning but added a personalized statistic about the customer's own audience (the share of recipients who opened on mobile), framing SMS as a natural extension of their mobile reach. SMS signup rate was the primary metric, with signup funnel steps as secondary metrics and core report engagement as a guardrail.",
+    results: "The repositioning-only variant underperformed on the primary metric. The personalized variant was neutral on SMS signup rate (a directional increase with 69% probability to beat control) but drove a 20% lift in SMS signup starts and completions among customers viewing on mobile, with no impact on core report engagement. Given the neutral primary result plus clearly positive secondary signals, the personalized variant was shipped.",
+    impact: [
+      { value: "+20%", label: "SMS signup starts/completions (mobile)" },
+      { value: "69%", label: "Probability to beat (primary metric)" },
+      { value: "Shipped", label: "Outcome" }
+    ]
+  },
+  "weekly-ai-agent": {
+    title: "Weekly AI Performance Report Agent",
+    section: "AI Workflow Agents",
+    hook: "Every Monday, someone spent 3–4 hours manually digging through 25+ metric cuts to explain why SMS performance moved, then writing that story up for leadership. I built an AI agent that does that synthesis automatically, end to end.",
+    problem: "The SMS team had a dashboard covering 25+ ways to slice performance — by region, channel, funnel step, customer tenure, and entry point — but the dashboard could only show that something moved, not why. Every Monday, someone had to manually form a hypothesis across all of those cuts and turn it into a narrative leadership could act on. That took 3–4 hours, every week.",
+    whatIDid: "I built a reporting application connected live to the company's data warehouse and to Claude. It automatically pulls the latest data and computes every relevant comparison — week-over-week, versus forecast, versus target, and year-over-year — across all 25+ segments. A rolling memory of recent weeks gives the AI trend context, not just a single snapshot. I paired this with a maintained business-context document that captures analyst judgment — which movements are meaningful versus normal seasonal noise — so the AI's commentary reflects how an experienced analyst would actually read the data, not just the raw numbers.",
+    results: "The system produces a leadership-ready report automatically every week, saving roughly 4 hours of analyst time per week. After other product teams adopted the same approach for their own reporting, the combined time savings scaled to over 1,000 hours annually. The system was built solo in one week and aligned with stakeholders within two days.",
+    impact: [
+      { value: "~4 hrs/week", label: "Saved per team" },
+      { value: "1,000+ hrs/yr", label: "Scaled across teams" },
+      { value: "1 week", label: "Build time" }
+    ]
+  },
+  "opportunity-sizing-skill": {
+    title: "SMS Opportunity Sizing Skill",
+    section: "AI Workflow Agents",
+    hook: "Our team spent two weeks and roughly 160 hours of data science time sizing 40 product initiatives in one half-year. Rather than repeat that effort, I built a reusable AI tool that cuts it to under 20 hours total — and lets product managers run their own sizing in under 30 minutes.",
+    problem: "Every time the product team wanted to estimate the revenue potential of a new initiative, it required a half-day of manual data science work — with no consistent method, no easy way to compare initiatives against each other, and no reuse of the 40+ similar estimates the team had already produced.",
+    whatIDid: "I reviewed all 40+ past revenue estimates and found they all reduced to one of three underlying patterns: bringing in new subscribers, reducing churn among existing subscribers, or increasing how much existing subscribers spend. Based on that, I built a reusable AI tool that connects to live data, walks a product manager through a structured set of questions about their initiative, automatically surfaces similar past estimates for context, and produces a transparent, step-by-step revenue projection with a sensitivity range for the key assumptions.",
+    results: "I validated the tool against three initiatives where real experiment results were already known — its estimates landed within 5–6% of the actual outcomes. Across the full set of initiatives, what used to take 160 hours of data science time over two weeks now takes under 20 hours, and product managers can generate their own estimate in under 30 minutes.",
+    impact: [
+      { value: "~140 hrs", label: "DS time saved per cycle" },
+      { value: "5–6%", label: "Estimate accuracy vs. actuals" },
+      { value: "<30 min", label: "PM self-serve time" }
+    ]
+  },
+  "semantic-layer": {
+    title: "MCP Semantic Layer",
+    section: "MCP Semantic Layer",
+    hook: "When AI tools started giving product managers numbers that didn't match the dashboards, trust in the data team began to erode — not because access to data was the problem, but because the AI had no shared definition of what the numbers meant. I built the governed knowledge layer that fixed that.",
+    problem: "Once AI assistants had direct access to the company's data warehouse, product managers and analysts could ask questions in plain English and get answers immediately. But those answers often used the wrong table, missed a filter, or relied on a different definition of a metric than the one used in official dashboards. The reaction wasn't 'let me check my query' — it was 'the dashboard must be wrong,' and trust in the data team's numbers started to slip.",
+    whatIDid: "I built a two-part knowledge system. The first part is a semantic layer — a standardized library of 120+ business metrics and 108+ data tables across 7 product areas, with automated checks that catch conflicting or duplicate definitions before they're published. The second part is a 'context layer' that captures analyst judgment directly: before the AI can write any query, it must explicitly confirm the time window, customer segment, and metric being asked about. A second safety step shows the generated query and its estimated cost to the user for approval before anything runs. Both layers are exposed through a shared protocol so any AI tool the team uses can plug into the same source of truth.",
+    results: "The system was adopted by 8+ teams across the organization. Looking up a metric definition went from minutes of back-and-forth in chat to seconds, ramp-up time for new analysts was cut in half, and conflicting numbers in leadership reviews dropped to zero for the areas the system covers.",
+    impact: [
+      { value: "120+ / 8+", label: "Metrics standardized / teams adopted" },
+      { value: "-50%", label: "Analyst ramp time" },
+      { value: "0", label: "Conflicting numbers in leadership reviews" }
+    ]
+  },
+  "ai-built-portfolio": {
+    title: "Building This Portfolio with Claude",
+    section: "How This Site Was Built",
+    hook: "Everything you're looking at — the structure, the writing, the sanitization of confidential company details, the color system, the icons, the layout — was built through a conversation with Claude. No templates, no design tools, no manual coding. If you're evaluating how well someone can work with AI tools, this page is itself the case study.",
+    problem: "I needed a polished, professional portfolio that told real, high-impact stories from my work — but every one of those stories lived in private company documents full of internal codenames, colleague names, proprietary tool references, and forward-looking targets that could never appear in a public page. Turning that raw material into something shareable, while preserving the credibility of the results, would normally take days of writing and design work.",
+    whatIDid: "I worked with Claude Code in a single ongoing conversation. I pointed it at my private interview-prep notes, and together we defined a clear sanitization policy upfront — generalize internal codenames, remove colleague names, drop proprietary tool and table references, exclude forward-looking targets, and only include projects that were genuinely mine. From there, we designed the information architecture (a sidebar grouped by theme, a home view with bio and skills, and per-project case studies in a consistent Problem / What I Did / Results / Business Impact format), then iterated on the visual design entirely through natural-language feedback — color palette, typography, icon system, hover states, and layout — across many rounds, refining based on how it actually looked in the browser.",
+    results: "The result is this site: a single self-contained HTML file with a custom color-coded design system, hand-drawn-style inline SVG icons, and in-page navigation — written, sanitized, and styled in one sitting without writing or editing a line of code by hand. Every round of feedback ('make it more vibrant', 'remove the sidebar bio', 'add icons') was applied directly through conversation.",
+    impact: [
+      { value: "1 file", label: "Self-contained HTML/CSS/JS" },
+      { value: "0", label: "Lines of code written by hand" },
+      { value: "9", label: "Project case studies written & sanitized" },
+      { value: "1 session", label: "From raw notes to finished site" }
+    ]
+  }
+};
+
+let activeProjectId = null;
+
+const skillGroups = [
+  {
+    label: "Product Data Science",
+    color: "c2",
+    icon: "barChart",
+    items: "A/B Experimentation, Propensity Modeling, User Behavior Modeling, Retention and Churn Analysis, Experiment Design, Segmentation, Time Series Forecasting, SHAP"
+  },
+  {
+    label: "Causal Inference",
+    color: "c1",
+    icon: "scale",
+    items: "Propensity Score Matching (PSM), AIPW, Difference-in-Differences (DiD), CausalForestDML, Bayesian Structural Time Series, Bayesian Optimization (Optuna/Vizier)"
+  },
+  {
+    label: "AI and LLMs",
+    color: "c4",
+    icon: "robot",
+    items: "Agentic AI workflows, Claude, OpenAI, Gemini, prompt engineering, FAISS, MCP/semantic layer design, Slack chatbot"
+  },
+  {
+    label: "Tools and Infrastructure",
+    color: "c5",
+    icon: "wrench",
+    items: "SQL, Python (Pandas, NumPy, Scikit-learn, XGBoost, LightGBM, Random Forest, TensorFlow, Seaborn, Matplotlib), BigQuery, GCP, Vertex AI, Snowflake, Redshift, dbt, Apache Airflow, Apache Spark, Cursor, Git, GitHub Actions, AWS"
+  },
+  {
+    label: "Analytics",
+    color: "c3",
+    icon: "pieChart",
+    items: "Funnel Analysis, Amplitude, Looker, Tableau, Power BI, Excel"
+  }
+];
+
+function renderNav() {
+  const nav = document.getElementById("nav");
+  const heading = nav.querySelector("h2");
+  nav.innerHTML = "";
+  nav.appendChild(heading);
+
+  sections.forEach((section, idx) => {
+    const sectionEl = document.createElement("div");
+    sectionEl.className = "nav-section";
+
+    const titleEl = document.createElement("div");
+    titleEl.className = "nav-section-title";
+    titleEl.innerHTML = '<span class="chevron">▼</span>' + iconBadge(section.color, section.icon) + '<span>' + section.name + '</span>';
+    titleEl.addEventListener("click", () => {
+      sectionEl.classList.toggle("collapsed");
+    });
+
+    const projectsEl = document.createElement("div");
+    projectsEl.className = "nav-projects";
+
+    section.projects.forEach(pid => {
+      const p = projects[pid];
+      const projEl = document.createElement("div");
+      projEl.className = "nav-project" + (pid === activeProjectId ? " active" : "");
+      projEl.textContent = p.title;
+      projEl.dataset.id = pid;
+      projEl.addEventListener("click", () => selectProject(pid));
+      projectsEl.appendChild(projEl);
+    });
+
+    sectionEl.appendChild(titleEl);
+    sectionEl.appendChild(projectsEl);
+    nav.appendChild(sectionEl);
+  });
+}
+
+function renderHome() {
+  const main = document.getElementById("main");
+
+  const skillCards = skillGroups.map(group =>
+    '<div class="home-skill-card" style="--card-accent:var(--' + group.color + '-fg)"><p class="label">' + iconBadge(group.color, group.icon) + group.label + '</p><p class="items">' + group.items + '</p></div>'
+  ).join("");
+
+  main.innerHTML =
+    '<p class="eyebrow">Welcome</p>' +
+    '<h1>Himanshu Dubey</h1>' +
+    '<p class="home-tagline">Senior Product Analyst with 7+ years in propensity modeling, causal inference, and A/B experimentation. Delivered $5M+ in incremental revenue and scaled experimentation velocity 5x across high-velocity SaaS environments.</p>' +
+    '<h2>Skills</h2>' +
+    '<div class="home-skills-grid">' + skillCards + '</div>' +
+    '<p class="home-hint">Select a project from the left to see the full case study.</p>';
+}
+
+function renderMain(pid) {
+  const p = projects[pid];
+  const main = document.getElementById("main");
+  const color = sectionColor[p.section];
+
+  const impactCards = p.impact.map(item =>
+    '<div class="impact-card" style="color:var(--' + color + '-fg);border-left-color:var(--' + color + '-fg)"><p class="value">' + item.value + '</p><p class="label">' + item.label + '</p></div>'
+  ).join("");
+
+  main.innerHTML =
+    '<p class="eyebrow" style="color:var(--' + color + '-fg)">' + p.section + '</p>' +
+    '<h1>' + p.title + '</h1>' +
+    '<p class="hook" style="border-left-color:var(--' + color + '-fg);background:var(--' + color + '-bg)">' + p.hook + '</p>' +
+    '<h2>The Problem</h2>' +
+    '<p>' + p.problem + '</p>' +
+    '<h2>What I Did</h2>' +
+    '<p>' + p.whatIDid + '</p>' +
+    '<h2>Results</h2>' +
+    '<p>' + p.results + '</p>' +
+    '<h2 class="impact-heading">Business Impact</h2>' +
+    '<div class="impact-grid">' + impactCards + '</div>';
+}
+
+function selectProject(pid) {
+  activeProjectId = pid;
+  document.querySelectorAll(".nav-project").forEach(el => {
+    el.classList.toggle("active", el.dataset.id === pid);
+  });
+  renderMain(pid);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function goHome() {
+  activeProjectId = null;
+  document.querySelectorAll(".nav-project").forEach(el => {
+    el.classList.remove("active");
+  });
+  renderHome();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.getElementById("home-link").addEventListener("click", goHome);
+
+renderNav();
+renderHome();
+</script>
+
+</body>
+</html>
