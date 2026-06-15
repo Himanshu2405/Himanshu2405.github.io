@@ -431,6 +431,39 @@
     max-width: 640px;
   }
 
+  .achievement-list {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .achievement-list li {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--accent-light);
+    color: var(--accent);
+    margin: 0 0 2.5rem;
+  }
+
+  .achievement-badge svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
   .home-skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -540,7 +573,8 @@ const icons = {
   wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/></svg>',
   pieChart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10l8.5 5A10 10 0 1 1 12 2z"/></svg>',
   sparkles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M4 12h4M16 12h4M6.3 6.3l2.1 2.1M15.6 15.6l2.1 2.1M17.7 6.3l-2.1 2.1M8.4 15.6l-2.1 2.1"/><circle cx="12" cy="12" r="2.5"/></svg>',
-  arrowLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>'
+  arrowLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>',
+  award: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>'
 };
 
 function iconBadge(color, icon) {
@@ -593,7 +627,7 @@ const projects = {
   "causal-study": {
     title: "SMS Adoption Causal Study",
     section: "Causal Inference & Impact Studies",
-    hook: "Ran a causal study using coarsened exact matching to test whether SMS adoption actually grows a customer's broader Mailchimp usage, or just reflects already-successful customers self-selecting in. Matched ~522K non-SMS customers to ~13,500 first-time SMS buyers across 11 pre-purchase signals, then compared revenue before vs. after. Result: SMS buyers saw a 79% lift in 90-day revenue, and even excluding SMS spend, still spent 28% more on the rest of Mailchimp — proof of a real halo effect. This repositioned SMS as a core growth lever and seeded three follow-on initiatives across product, onboarding, and sales.",
+    hook: "Proved that SMS isn't just a standalone product — it makes customers more valuable across all of Mailchimp. Customers who adopted SMS generated 79% higher revenue over 90 days, and even setting aside SMS spend itself, they still spent 28% more on the rest of the platform. This finding repositioned SMS as a core growth lever and directly shaped three follow-on initiatives across product, onboarding, and sales.",
     tools: ["Coarsened Exact Matching", "Causal Inference", "Python", "Pandas", "SQL", "BigQuery"],
     problem: "Comparing SMS buyers to non-buyers directly would have been misleading — customers who chose to buy SMS were already more active and higher-spending before they ever made that purchase. A simple before/after comparison would have credited SMS for revenue that was already on its way.",
     whatIDid: {
@@ -625,7 +659,7 @@ const projects = {
   "propensity-model": {
     title: "SMS Adoption Propensity Model",
     section: "ML & Predictive Models",
-    hook: "Built an XGBoost propensity model to predict which of Mailchimp's ~1M eligible customers were most likely to adopt SMS — and when and why. Trained on ~243K examples with 700+ signals, it hit 82% AUC with a 1.4–1.6x lift over baseline targeting. SHAP analysis turned predictions into specific, actionable triggers: onboarding interest, phone-rich contact imports, post-purchase timing, and integration usage. Those triggers directly seeded five product experiments projected to deliver $4.8M in 12-month revenue.",
+    hook: "Built a predictive model that tells the product team exactly which customers are ready for SMS, and the right moment to reach them. It identifies high-intent customers with significantly better accuracy than existing targeting, surfacing clear signals — like onboarding interest and recent contact imports — that teams can act on immediately. These insights directly seeded five product experiments projected to deliver $4.8M in revenue over 12 months.",
     tools: ["XGBoost", "Propensity Modeling", "Feature Engineering", "SHAP", "Python", "SQL", "BigQuery", "Vertex AI"],
     problem: "SMS penetration had plateaued at roughly 3% of about 1 million eligible paid customers. The team had no way to proactively identify which customers were ready to adopt SMS, or when and where to reach them — growth depended entirely on customers discovering the product themselves.",
     whatIDid: {
@@ -659,7 +693,7 @@ const projects = {
   "cross-sell-experiment": {
     title: "SMS Cross-Sell Onboarding Experiment",
     section: "Experimentation & Growth",
-    hook: "Ran a multi-variant A/B test that prompted SMS signup right after a customer's first Mailchimp purchase — the moment the propensity model flagged as highest-intent. Across ~5,000 users per arm over 35 days, the broadly-shown variant nearly doubled SMS attach rate (6% → 11%, 96% probability to beat control) and lifted 14-day revenue per user by 11% ($1.60), with 69% of that from non-SMS revenue. This confirmed the causal study's halo effect under randomized conditions, became the new onboarding default, and is projected to drive $2.3M in 12-month revenue.",
+    hook: "Tested whether prompting customers to try SMS right after their first purchase would drive adoption — and it worked. The new prompt nearly doubled SMS signups and lifted overall revenue per customer by 11%, with most of that gain coming from increased spend elsewhere on the platform. It's now the default onboarding experience and is projected to drive $2.3M in revenue over 12 months.",
     tools: ["A/B Testing", "Experiment Design", "Bayesian Statistics", "SQL", "Amplitude"],
     metrics: [
       { type: "Primary", metric: "SMS attach rate", control: "6%", variant: "11%", result: "+82% relative, 96% probability to beat control" },
@@ -699,7 +733,7 @@ const projects = {
   "contact-import-prompt": {
     title: "Contact Import SMS Prompt",
     section: "Experimentation & Growth",
-    hook: "Ran an A/B test that prompted SMS signup the instant a customer imported a phone-number-rich contact list — acting on the propensity model's single strongest predictor, a moment 97% of eligible customers had never seen. Across ~80,000 users per arm over 18 days, SMS purchase rate rose 35% relative to a 1.2% control baseline (94% probability to beat control), with import completion holding flat as a guardrail. Shipped as the new default, with an observed novelty-decay effect on repeat imports used to haircut the projection to a realistic $400K in 12-month revenue.",
+    hook: "Targeted a segment Mailchimp had never reached — customers who'd just imported a contact list full of phone numbers but had never been offered SMS. Prompting them at that exact moment lifted SMS purchases by 35%, with no negative impact on the import experience. Now shipped as the default, it's projected to add $400K in revenue over 12 months.",
     tools: ["A/B Testing", "Guardrail Metrics", "SQL", "Amplitude"],
     metrics: [
       { type: "Primary", metric: "SMS purchase rate", control: "1.2%", variant: "~1.6%", result: "+35% relative, 94% probability to beat control" },
@@ -736,7 +770,7 @@ const projects = {
   "email-report-banner": {
     title: "Email Report Recommendation Banner",
     section: "Experimentation & Growth",
-    hook: "Ran a multi-variant A/B test on the email performance report page, testing whether repositioning and personalizing an existing SMS recommendation banner could amplify a previously proven 35% signup lift. The repositioning-only variant underperformed, but the personalized variant — adding the customer's own mobile-open stat — was directionally positive on the primary signup-rate metric (69% probability to beat control) and drove a 20% lift in SMS signup starts/completions among mobile viewers, with report engagement flat as a guardrail. Shipped the personalized variant and shifted the team's focus from placement to personalization as the higher-leverage lever.",
+    hook: "Tested whether making an existing SMS recommendation more prominent — or more personal — would drive more signups. Simply repositioning it didn't help, but personalizing it with the customer's own data drove a 20% lift in signups among mobile users, without disrupting the page. The personalized version shipped, shifting the team's strategy toward personalization as the bigger lever for future growth prompts.",
     tools: ["A/B Testing", "Personalization", "Multi-Variant Testing", "SQL", "Amplitude"],
     metrics: [
       { type: "Primary", metric: "SMS signup rate (reposition-only variant)", control: "Baseline", variant: "Underperformed", result: "Not shipped" },
@@ -773,7 +807,7 @@ const projects = {
   "weekly-ai-agent": {
     title: "Weekly AI Performance Report Agent",
     section: "AI Workflow Agents",
-    hook: "Every Monday, someone spent 3–4 hours manually digging through 25+ metric cuts to explain why SMS performance moved, then writing it up for leadership. I built a Streamlit app connected live to BigQuery and Claude that automates that entire analysis — covering bookings, penetration, revenue vs. forecast/target, funnel conversion, and 25+ segment cuts — with Claude writing the narrative end to end. Built solo in one week, it saves roughly 4 DS hours per week (~200 hours/year) and shifted leadership conversations from 'what happened?' to 'what do we do about it?'",
+    hook: "Every Monday, someone spent half a day manually digging through dozens of metrics to explain why SMS performance moved, then writing it up for leadership. I built an AI agent that does that analysis automatically — pulling the data, spotting the trends, and writing the leadership narrative end to end. Built in one week, it saves roughly 200 hours of analyst time a year and shifted leadership conversations from 'what happened?' to 'what do we do about it?'",
     tools: ["Claude", "Prompt Engineering", "MCP", "Automated Reporting", "Python", "SQL", "BigQuery", "Apache Airflow"],
     problem: "The SMS team had a dashboard covering 25+ ways to slice performance — by region, channel, funnel step, customer tenure, and entry point — but the dashboard could only show that something moved, not why. Every Monday, someone had to manually form a hypothesis across all of those cuts and turn it into a narrative leadership could act on. That took 3–4 hours, every week.",
     whatIDid: {
@@ -807,7 +841,7 @@ const projects = {
   "opportunity-sizing-skill": {
     title: "SMS Opportunity Sizing Skill",
     section: "AI Workflow Agents",
-    hook: "Our team spent two weeks (~160 hours of DS time) sizing 40 product initiatives in one half-year, with no consistent method and no reuse of past estimates. I built a reusable AI tool that connects to live data, walks PMs through 7 structured questions, surfaces similar past sizings, and outputs a transparent revenue projection with a sensitivity range. Validated against 3 initiatives with known outcomes, it landed within 5–6% of actuals — cutting the same sizing work to under 20 hours (saving ~140 hours per cycle) while letting PMs self-serve in under 30 minutes.",
+    hook: "Sizing the revenue potential of new product ideas used to take two weeks of dedicated analyst time, with no consistent method across requests. I built a self-serve AI tool that walks product managers through a guided set of questions and produces a transparent revenue estimate in under 30 minutes. It's been validated as accurate within 5–6% of actual results, cutting analyst workload by roughly 140 hours per cycle.",
     tools: ["Claude", "Agentic AI Workflows", "Revenue Modeling", "Sensitivity Analysis", "Python", "SQL", "BigQuery"],
     problem: "Every time the product team wanted to estimate the revenue potential of a new initiative, it required a half-day of manual data science work — with no consistent method, no easy way to compare initiatives against each other, and no reuse of the 40+ similar estimates the team had already produced.",
     whatIDid: {
@@ -840,7 +874,7 @@ const projects = {
   "semantic-layer": {
     title: "MCP Semantic Layer",
     section: "MCP Semantic Layer",
-    hook: "When AI tools started giving PMs numbers that didn't match the dashboards, trust in the data team began to erode — not from lack of access, but from no shared definition of what the numbers meant. I built a governed semantic layer of 120+ canonical metrics and 108+ tables across 7 product areas, plus a context layer that makes AI tools confirm definitions and show query costs before running anything, all exposed via MCP. Adopted by 8+ teams, it cut new-analyst ramp time by 50%, dropped metric lookup from minutes of Slack back-and-forth to seconds, and brought conflicting numbers in leadership reviews to zero.",
+    hook: "When AI tools started giving product managers numbers that didn't match the dashboards, trust in the data team began to erode. I built a shared knowledge layer that gives every AI tool and analyst the same definitions for over 100 key metrics — so any question gets a consistent, trustworthy answer. Now adopted by 8+ teams, it cut new-analyst ramp time in half and eliminated conflicting numbers in leadership reviews entirely.",
     tools: ["Claude", "MCP", "Semantic Layer Design", "Data Governance", "SQL", "BigQuery", "dbt"],
     problem: "Once AI assistants had direct access to the company's data warehouse, product managers and analysts could ask questions in plain English and get answers immediately. But those answers often used the wrong table, missed a filter, or relied on a different definition of a metric than the one used in official dashboards. The reaction wasn't 'let me check my query' — it was 'the dashboard must be wrong,' and trust in the data team's numbers started to slip.",
     whatIDid: {
@@ -873,7 +907,7 @@ const projects = {
   "ai-built-portfolio": {
     title: "Building This Portfolio with Claude",
     section: "How This Site Was Built",
-    hook: "Everything on this page — the structure, writing, sanitization of confidential details, color system, icons, and layout — was built through a single conversation with Claude Code, with zero lines of code written or edited by hand. We defined a sanitization policy upfront, designed the information architecture, and iterated on the visual design entirely through natural-language feedback. The result: 9 sanitized project case studies and a complete custom design system, shipped in one sitting. If you're evaluating how well someone works with AI tools, this page is itself the case study.",
+    hook: "Everything on this page — the writing, the design, the layout, even the sanitization of confidential company details — was built through a single conversation with AI, with zero lines of code written by hand. If you're evaluating how well someone works with AI tools, this page is itself the case study.",
     tools: ["Claude Code", "Prompt-Driven Design", "HTML", "CSS", "JavaScript"],
     problem: "I needed a polished, professional portfolio that told real, high-impact stories from my work — but every one of those stories lived in private company documents full of internal codenames, colleague names, proprietary tool references, and forward-looking targets that could never appear in a public page. Turning that raw material into something shareable, while preserving the credibility of the results, would normally take days of writing and design work.",
     whatIDid: {
@@ -885,25 +919,25 @@ const projects = {
         "Refined everything based on how it actually looked in the browser, with feedback like 'make it more vibrant' or 'add icons' applied directly through conversation."
       ]
     },
-    results: [
-      "A single self-contained HTML file with a custom color-coded design system and hand-drawn-style inline SVG icons.",
-      "In-page navigation across 9 project case studies, written, sanitized, and styled in one sitting.",
-      "Zero lines of code written or edited by hand."
-    ],
     impact: [
       { value: "1 file", label: "Self-contained HTML/CSS/JS" },
       { value: "0", label: "Lines of code written by hand" },
       { value: "9", label: "Project case studies written & sanitized" },
       { value: "1 session", label: "From raw notes to finished site" }
-    ],
-    afterImpact: [
-      "Every round of feedback — 'make it more vibrant', 'remove the sidebar bio', 'add icons' — was applied directly through conversation.",
-      "The site itself became a live demonstration of working fluently with AI tools to ship production-quality work."
     ]
   }
 };
 
 let activeProjectId = null;
+
+const keyAchievements = [
+  "Led SMS team's experimentation program end-to-end, scaling experiment throughput 5x to 30+ tests per quarter, generating $2M+ in projected revenue through structured design, measurement, and cross-functional alignment",
+  "Built a fully automated LLM-powered agent that saved 1,000+ DS hours annually across 5 product teams by delivering weekly AI-generated commentary on north star KPI fluctuations across 25+ custom segments for senior leadership business review",
+  "Built an XGBoost SMS propensity model (AUC 86%) adopted by product, marketing, and sales, driving 1.6x lift in new customer adoption and $2.5M ARR",
+  "Designed and analyzed an SMS cross-sell A/B experiment testing targeted vs. aggressive post-onboarding SMS screens, winning variant drove +$1.6 lift in 14-day revenue (+10.7%), and +160bps SMS attach rate with no guardrail impact",
+  "Shaped the SMS growth roadmap by proving SMS credit buyers generate 79% higher 90-day revenue, designed and ran a causal inference study using Coarsened Exact Matching (CEM) with robustness checks via doubly-robust estimation",
+  "Architected a multi-step LLM pipeline powering a Slack chatbot AI analytics agent, enabling real-time self-serve analytics"
+];
 
 const skillGroups = [
   {
@@ -988,10 +1022,17 @@ function renderHome() {
     '<div class="home-skill-card" style="--card-accent:var(--' + group.color + '-fg)"><p class="label">' + iconBadge(group.color, group.icon) + group.label + '</p><p class="items">' + group.items + '</p></div>'
   ).join("");
 
+  const achievementItems = keyAchievements.map(item =>
+    '<li>' + item + '</li>'
+  ).join("");
+
   main.innerHTML =
     '<p class="eyebrow">Welcome</p>' +
     '<h1>Himanshu Dubey</h1>' +
     '<p class="home-tagline">Senior Product Data Scientist with 7+ years in propensity modeling, causal inference, and A/B experimentation. Delivered $5M+ in incremental revenue and scaled experimentation velocity 5x across high-velocity SaaS environments.</p>' +
+    '<h2>Key Achievements</h2>' +
+    '<ul class="achievement-list">' + achievementItems + '</ul>' +
+    '<p class="achievement-badge">' + icons.award + 'All-Star Award FY25 &nbsp;|&nbsp; 19 peer recognitions from 14 colleagues</p>' +
     '<h2>Skills</h2>' +
     '<div class="home-skills-grid">' + skillCards + '</div>' +
     '<p class="home-hint">Select a project from the left to see the full case study.</p>';
@@ -1014,13 +1055,15 @@ function renderMain(pid) {
     '<li>' + point + '</li>'
   ).join("");
 
-  const resultPoints = p.results.map(point =>
-    '<li>' + point + '</li>'
-  ).join("");
+  const resultsSection = p.results ? (
+    '<h2>Results</h2>' +
+    '<ul class="story-list">' + p.results.map(point => '<li>' + point + '</li>').join("") + '</ul>'
+  ) : "";
 
-  const afterImpactPoints = p.afterImpact.map(point =>
-    '<li>' + point + '</li>'
-  ).join("");
+  const afterImpactSection = p.afterImpact ? (
+    '<h2>What Happened Next</h2>' +
+    '<ul class="story-list">' + p.afterImpact.map(point => '<li>' + point + '</li>').join("") + '</ul>'
+  ) : "";
 
   const metricsTable = p.metrics ? (
     '<h2>Primary, Secondary &amp; Guardrail Metrics</h2>' +
@@ -1045,10 +1088,8 @@ function renderMain(pid) {
     '<p>' + p.whatIDid.summary + '</p>' +
     '<ul class="story-list">' + storyPoints + '</ul>' +
     metricsTable +
-    '<h2>Results</h2>' +
-    '<ul class="story-list">' + resultPoints + '</ul>' +
-    '<h2>What Happened Next</h2>' +
-    '<ul class="story-list">' + afterImpactPoints + '</ul>';
+    resultsSection +
+    afterImpactSection;
 
   document.getElementById("home-back").addEventListener("click", goHome);
 }
