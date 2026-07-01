@@ -251,6 +251,10 @@
     padding: 2.5rem 3rem;
     min-width: 0;
   }
+  /* Reserve a right gutter so content clears the fixed "Built with Claude" seal. */
+  @media (min-width: 641px) {
+    .main { padding-right: 7.5rem; }
+  }
 
   .home-back {
     display: inline-flex;
@@ -510,6 +514,56 @@
     border-top: 1px solid var(--border);
   }
 
+  /* ---------- Education ---------- */
+  .home-edu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 1rem;
+  }
+  .edu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-sidebar);
+    border-radius: 9px;
+    border-left: 3px solid var(--edu-accent, var(--accent));
+    padding: 0.5rem 0.85rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .edu-item:hover {
+    transform: translateY(-2px);
+    background: var(--bg-page);
+    box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--edu-accent, var(--accent)) 45%, transparent);
+  }
+  .edu-body { flex: 1; min-width: 0; }
+  .edu-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .edu-degree {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.35;
+  }
+  .edu-field { font-weight: 500; color: var(--text-secondary); }
+  .edu-date {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .edu-school {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.35;
+  }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 640px) {
     .layout { flex-direction: column; }
@@ -522,9 +576,295 @@
     }
     .main { padding: 1.75rem 1.25rem; }
   }
+
+  /* ================= Intro sphere overlay ================= */
+  #intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 50% 38%, #241f52 0%, #151138 42%, #060314 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
+  }
+  #intro-overlay.intro-hide {
+    opacity: 0;
+    transform: scale(1.08);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .intro-bg { position: absolute; inset: 0; pointer-events: none; }
+  .intro-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 34px 34px;
+    -webkit-mask: radial-gradient(circle at 50% 45%, #000 25%, transparent 72%);
+    mask: radial-gradient(circle at 50% 45%, #000 25%, transparent 72%);
+    opacity: 0.55;
+  }
+  .intro-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 42%), rgba(129,140,248,0.20), transparent 70%);
+  }
+
+  .intro-stage {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .intro-sphere { position: relative; width: 0; height: 0; transform: translateX(-10vw); }
+
+  .intro-word {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    will-change: transform, opacity;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: auto;
+  }
+
+  .intro-cta {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    max-width: 340px;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  .intro-cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: introReveal 0.9s cubic-bezier(0.2,0.7,0.2,1) 2.2s forwards;
+  }
+  .intro-eyebrow {
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #8b93c9;
+  }
+  .intro-tagline {
+    margin: 0 0 26px;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #eef0ff;
+    letter-spacing: 0.01em;
+  }
+  .intro-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border: none;
+    border-radius: 999px;
+    font: 600 15px 'Inter', sans-serif;
+    color: #fff;
+    background: linear-gradient(135deg, #818cf8, #6366f1 55%, #a78bfa);
+    box-shadow: 0 8px 30px -6px rgba(99,102,241,0.7);
+    cursor: pointer;
+    animation: introPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes introReveal { to { opacity: 1; transform: translateY(0); } }
+  @keyframes introPulse {
+    0%, 100% { box-shadow: 0 8px 30px -6px rgba(99,102,241,0.55); transform: scale(1); }
+    50%      { box-shadow: 0 12px 44px -4px rgba(129,140,248,0.95); transform: scale(1.04); }
+  }
+
+  .intro-skip {
+    position: absolute;
+    bottom: 22px;
+    right: 24px;
+    z-index: 2;
+    background: rgba(255,255,255,0.08);
+    color: #c7cbe6;
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 7px 15px;
+    border-radius: 999px;
+    font: 600 12.5px 'Inter', sans-serif;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .intro-skip:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+  @media (max-width: 820px) {
+    /* Not enough width for a side panel — stack the CTA under the sphere. */
+    .intro-sphere { transform: none; }
+    .intro-cta {
+      top: auto;
+      bottom: 7%;
+      right: 0;
+      left: 0;
+      transform: none;
+      max-width: none;
+      text-align: center;
+    }
+  }
+  @media (max-width: 640px) {
+    .intro-word { font-size: 12.5px; }
+    .intro-tagline { font-size: 18px; margin-bottom: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .intro-cta-inner { animation: none; opacity: 1; transform: none; }
+    .intro-btn { animation: none; }
+  }
+
+  /* ================= "Built with Claude" seal ================= */
+  .seal-badge {
+    position: fixed;
+    top: 20px;
+    /* Sit inside the reserved right gutter of the content column. */
+    right: max(20px, calc((100vw - 1200px) / 2 + 24px));
+    width: 76px;
+    height: 76px;
+    z-index: 10000; /* above the intro overlay so it shows during the animation */
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 18px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    background: #6366f1;
+    box-shadow: 0 8px 26px -6px rgba(124, 58, 237, 0.55);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.25), box-shadow 0.25s ease;
+  }
+  .seal-badge.seal-visible { opacity: 1; transform: scale(1); }
+  .seal-badge:hover { box-shadow: 0 12px 34px -4px rgba(124, 58, 237, 0.8); }
+  /* Fade out of the way while the reader is actively scrolling. */
+  .seal-badge.seal-scrolling {
+    opacity: 0.12;
+    transform: scale(0.9) translateY(8px);
+    pointer-events: none;
+  }
+
+  /* Rotating multicolor gradient = the moving border. */
+  .seal-badge::before {
+    content: "";
+    position: absolute;
+    top: -25%;
+    left: -25%;
+    width: 150%;
+    height: 150%;
+    background: conic-gradient(from 0deg, #6366f1, #2dd4bf, #fbbf24, #fb7185, #a855f7, #38bdf8, #6366f1);
+    animation: sealSpin 4s linear infinite;
+  }
+  .seal-badge:hover::before { animation-duration: 1.8s; }
+
+  .seal-inner {
+    position: absolute;
+    inset: 3px;
+    z-index: 1;
+    border-radius: 15px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    text-align: center;
+  }
+  .seal-spark {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+    margin-bottom: 2px;
+    filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.4));
+  }
+  .seal-l1 {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .seal-l2 {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .seal-l3 {
+    font-size: 7.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  @keyframes sealSpin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 640px) {
+    .seal-badge { width: 66px; height: 66px; top: 12px; right: 12px; border-radius: 14px; }
+    .seal-spark { width: 12px; height: 12px; margin-bottom: 1px; }
+    .seal-l1 { font-size: 6.5px; letter-spacing: 1px; }
+    .seal-l2 { font-size: 11px; }
+    .seal-l3 { font-size: 7px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .seal-badge::before { animation: none; }
+    .seal-badge { transition: opacity 0.4s ease; transform: none; }
+    .seal-badge.seal-visible { transform: none; }
+    .seal-badge.seal-scrolling { transform: none; }
+  }
 </style>
 </head>
 <body>
+
+<div id="intro-overlay">
+  <div class="intro-bg"></div>
+  <button class="intro-skip" id="intro-skip">Skip &rarr;</button>
+  <div class="intro-stage">
+    <div class="intro-sphere" id="intro-sphere"></div>
+  </div>
+  <div class="intro-cta">
+    <div class="intro-cta-inner">
+      <p class="intro-eyebrow">Himanshu Dubey</p>
+      <p class="intro-tagline">A universe of <span style="color:#818cf8">data science</span>, <span style="color:#2dd4bf">causal inference</span> &amp; <span style="color:#fbbf24">AI</span></p>
+      <button class="intro-btn">Click here to see Himanshu's portfolio &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<button class="seal-badge" id="seal-badge" type="button" aria-label="Built with Claude by Himanshu — see how this site was built">
+  <span class="seal-inner">
+    <svg class="seal-spark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 1.8l1.9 7.5 7.5 1.9-7.5 1.9-1.9 7.5-1.9-7.5-7.5-1.9 7.5-1.9z"/>
+    </svg>
+    <span class="seal-l1">Built with</span>
+    <span class="seal-l2">Claude</span>
+    <span class="seal-l3">by Himanshu</span>
+  </span>
+</button>
 
 <div class="layout">
 
@@ -574,7 +914,8 @@ const icons = {
   pieChart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10l8.5 5A10 10 0 1 1 12 2z"/></svg>',
   sparkles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M4 12h4M16 12h4M6.3 6.3l2.1 2.1M15.6 15.6l2.1 2.1M17.7 6.3l-2.1 2.1M8.4 15.6l-2.1 2.1"/><circle cx="12" cy="12" r="2.5"/></svg>',
   arrowLeft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>',
-  award: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>'
+  award: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>',
+  cap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5"/><path d="M22 10v6"/></svg>'
 };
 
 function iconBadge(color, icon) {
@@ -907,22 +1248,40 @@ const projects = {
   "ai-built-portfolio": {
     title: "Building This Portfolio with Claude",
     section: "How This Site Was Built",
-    hook: "Everything on this page — the writing, the design, the layout, even the sanitization of confidential company details — was built through a single conversation with AI, with zero lines of code written by hand. If you're evaluating how well someone works with AI tools, this page is itself the case study.",
-    tools: ["Claude Code", "Prompt-Driven Design", "HTML", "CSS", "JavaScript"],
-    problem: "I needed a polished, professional portfolio that told real, high-impact stories from my work — but every one of those stories lived in private company documents full of internal codenames, colleague names, proprietary tool references, and forward-looking targets that could never appear in a public page. Turning that raw material into something shareable, while preserving the credibility of the results, would normally take days of writing and design work.",
+    hook: "Everything on this page — the writing, the design, the 3-D animated intro, even the sanitization of confidential company details — was built through a single conversation with AI, without a line of code written by hand. If you're evaluating how someone works with AI tools, this page is itself the case study.",
+    tools: ["Claude Code", "Prompt-Driven Design", "HTML", "CSS", "JavaScript", "SVG & CSS Animation"],
+    problemHeading: "The Goal",
+    problem: "I set out to build a portfolio that works on several levels at once — and is safe to share publicly:",
+    problemPoints: [
+      "Tell real, high-impact stories from my actual work.",
+      "Feel genuinely memorable the moment it opens.",
+      "Prove — just by existing — that I can direct AI tools to a polished, production-quality result.",
+      "Do it all while stripping out confidential details — internal codenames, colleague names, proprietary tools, and forward-looking targets — that could never appear on a public page."
+    ],
     whatIDid: {
-      summary: "I worked with Claude Code in a single ongoing conversation to turn private interview-prep notes into this public, sanitized portfolio.",
+      summary: "I worked with Claude Code in one ongoing conversation, turning private interview-prep notes into this public, sanitized, animated portfolio — iterating entirely through natural-language feedback.",
       points: [
-        "Pointed Claude at my private interview-prep notes, and together we defined a sanitization policy upfront — generalize internal codenames, remove colleague names, drop proprietary tool and table references, exclude forward-looking targets, and only include projects that were genuinely mine.",
-        "Designed the information architecture: a sidebar grouped by theme, a home view with bio and skills, and per-project case studies in a consistent format.",
-        "Iterated on the visual design entirely through natural-language feedback — color palette, typography, icon system, hover states, and layout — across many rounds.",
-        "Refined everything based on how it actually looked in the browser, with feedback like 'make it more vibrant' or 'add icons' applied directly through conversation."
+        "Set a sanitization policy up front — generalize internal codenames, remove colleague names, drop proprietary tool and table references, exclude forward-looking targets, and only include work that was genuinely mine.",
+        "Designed the information architecture — a theme-grouped sidebar, a home view with bio, skills, and education, and per-project case studies in one consistent format.",
+        "Directed the visual design conversationally — color palette, typography, icon system, hover states, and layout — across many rounds of feedback like 'make it more vibrant' or 'add icons'.",
+        "Refined everything against how it actually rendered in the browser, not just how it read as code."
       ]
     },
+    resultsHeading: "The Animated Intro & Signature Touches",
+    results: [
+      "A 3-second opening animation — roughly 37 core skills streak in from off-screen and assemble into a slowly revolving 3-D sphere, each word glowing in the site's palette.",
+      "A right-side call-to-action fades in over the sphere and drops the reader into the portfolio on click.",
+      "A persistent 'Built with Claude · by Himanshu' seal with an animated gradient border follows the reader across every page and links straight back to this case study.",
+      "Polished details throughout — the intro honors reduced-motion preferences, scales down on mobile, and slides out of the way while scrolling so it never blocks the text."
+    ],
+    afterImpact: [
+      "The entire build — copy, design, animation, and sanitization — came out of a single conversation, with zero lines of code written by hand.",
+      "The site doubles as a live demo: the animated intro and seal show AI-directed front-end work, while the case studies underneath show the data-science craft."
+    ],
     impact: [
       { value: "1 file", label: "Self-contained HTML/CSS/JS" },
       { value: "0", label: "Lines of code written by hand" },
-      { value: "9", label: "Project case studies written & sanitized" },
+      { value: "3-sec", label: "Animated 3-D skill-sphere intro" },
       { value: "1 session", label: "From raw notes to finished site" }
     ]
   }
@@ -978,6 +1337,27 @@ const skillGroups = [
   }
 ];
 
+const education = [
+  {
+    degree: "Master of Science",
+    field: "Business Analytics & Project Management",
+    school: "University of Connecticut",
+    location: "Hartford, CT",
+    date: "December 2021",
+    color: "c2",
+    icon: "cap"
+  },
+  {
+    degree: "Bachelor of Engineering",
+    field: "Mechanical Engineering",
+    school: "Technocrats Institute of Technology",
+    location: "India",
+    date: "May 2014",
+    color: "c4",
+    icon: "cap"
+  }
+];
+
 function renderNav() {
   const nav = document.getElementById("nav");
   const heading = nav.querySelector("h2");
@@ -1026,6 +1406,19 @@ function renderHome() {
     '<li>' + item + '</li>'
   ).join("");
 
+  const eduItems = education.map(e =>
+    '<div class="edu-item" style="--edu-accent:var(--' + e.color + '-fg)">' +
+      iconBadge(e.color, e.icon) +
+      '<div class="edu-body">' +
+        '<div class="edu-top">' +
+          '<p class="edu-degree">' + e.degree + '<span class="edu-field"> — ' + e.field + '</span></p>' +
+          '<span class="edu-date">' + e.date + '</span>' +
+        '</div>' +
+        '<p class="edu-school">' + e.school + ' · ' + e.location + '</p>' +
+      '</div>' +
+    '</div>'
+  ).join("");
+
   main.innerHTML =
     '<p class="eyebrow">Welcome</p>' +
     '<h1>Himanshu Dubey</h1>' +
@@ -1035,6 +1428,8 @@ function renderHome() {
     '<p class="achievement-badge">' + icons.award + 'All-Star Award FY25 &nbsp;|&nbsp; 19 peer recognitions from 14 colleagues</p>' +
     '<h2>Skills</h2>' +
     '<div class="home-skills-grid">' + skillCards + '</div>' +
+    '<h2>Education</h2>' +
+    '<div class="home-edu-list">' + eduItems + '</div>' +
     '<p class="home-hint">Select a project from the left to see the full case study.</p>';
 }
 
@@ -1056,7 +1451,7 @@ function renderMain(pid) {
   ).join("");
 
   const resultsSection = p.results ? (
-    '<h2>Results</h2>' +
+    '<h2>' + (p.resultsHeading || 'Results') + '</h2>' +
     '<ul class="story-list">' + p.results.map(point => '<li>' + point + '</li>').join("") + '</ul>'
   ) : "";
 
@@ -1082,8 +1477,9 @@ function renderMain(pid) {
     '<div class="tools-row">' + toolTags + '</div>' +
     '<h2 class="impact-heading">At a Glance</h2>' +
     '<div class="impact-grid">' + impactCards + '</div>' +
-    '<h2>The Problem</h2>' +
+    '<h2>' + (p.problemHeading || 'The Problem') + '</h2>' +
     '<p>' + p.problem + '</p>' +
+    (p.problemPoints ? '<ul class="story-list">' + p.problemPoints.map(pt => '<li>' + pt + '</li>').join("") + '</ul>' : "") +
     '<h2>What I Did</h2>' +
     '<p>' + p.whatIDid.summary + '</p>' +
     '<ul class="story-list">' + storyPoints + '</ul>' +
@@ -1116,6 +1512,171 @@ document.getElementById("home-link").addEventListener("click", goHome);
 
 renderNav();
 renderHome();
+</script>
+
+<script>
+/* ================= Intro 3D skill sphere ================= */
+(function () {
+  const overlay = document.getElementById("intro-overlay");
+  if (!overlay) return;
+  const sphere = document.getElementById("intro-sphere");
+  const skipBtn = document.getElementById("intro-skip");
+  const bg = overlay.querySelector(".intro-bg");
+
+  // Brightened palette that glows on the dark backdrop.
+  const palette = ["#a78bfa", "#818cf8", "#2dd4bf", "#fbbf24", "#fb7185", "#38bdf8"];
+  const words = [
+    // Core skills first — these lead the fly-in.
+    "Causal Inference", "Propensity Modeling", "AI Workflows", "Python", "SQL",
+    "A/B Experimentation", "Propensity Score Matching", "dbt", "AWS",
+    // Full stack.
+    "XGBoost", "LightGBM", "Random Forest", "Scikit-learn", "SHAP",
+    "Difference-in-Differences", "Bayesian Optimization", "Experiment Design",
+    "Segmentation", "Time Series Forecasting", "Retention & Churn",
+    "Agentic AI", "Claude", "Prompt Engineering", "MCP", "Semantic Layer",
+    "LLM Agents", "BigQuery", "Vertex AI", "GCP", "Snowflake",
+    "Apache Airflow", "Apache Spark", "Amplitude", "Looker", "Tableau", "Pandas"
+  ];
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Even distribution on a sphere (Fibonacci lattice) -> unit vectors.
+  const N = words.length;
+  const gold = Math.PI * (1 + Math.sqrt(5));
+  const items = words.map(function (text, i) {
+    const y = 1 - (i + 0.5) / N * 2;      // 1 .. -1
+    const r = Math.sqrt(1 - y * y);
+    const theta = gold * i;
+    const color = palette[i % palette.length];
+    const el = document.createElement("span");
+    el.className = "intro-word";
+    el.textContent = text;
+    el.style.color = color;
+    sphere.appendChild(el);
+    return {
+      el: el,
+      color: color,
+      ux: Math.cos(theta) * r,
+      uy: y,
+      uz: Math.sin(theta) * r,
+      jx: (Math.random() * 2 - 1) * 70,   // entrance jitter
+      jy: (Math.random() * 2 - 1) * 70
+    };
+  });
+
+  // Hover boost (kept out of the RAF-driven transform, applied via scale factor).
+  let hovered = null;
+  sphere.addEventListener("mouseover", function (e) {
+    if (e.target.classList.contains("intro-word")) hovered = e.target;
+  });
+  sphere.addEventListener("mouseout", function (e) {
+    if (e.target === hovered) hovered = null;
+  });
+
+  // Cursor glow + gentle parallax.
+  let mx = 0, my = 0;
+  overlay.addEventListener("mousemove", function (e) {
+    bg.style.setProperty("--mx", e.clientX + "px");
+    bg.style.setProperty("--my", e.clientY + "px");
+    mx = (e.clientX / window.innerWidth) * 2 - 1;
+    my = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+
+  const ENTER_DUR = 0.85;   // per-word fly-in duration (s)
+  const STAGGER = 0.55;     // spread of start times (s)
+  const easeOut = function (p) { return 1 - Math.pow(1 - p, 3); };
+
+  let raf = null;
+  const start = performance.now();
+
+  function render(now) {
+    const t = (now - start) / 1000;
+    const R = Math.max(160, Math.min(window.innerWidth, window.innerHeight) * 0.33);
+    const P = R * 2;                                   // perspective depth
+    const angleY = t * 0.35 + mx * 0.6;                // auto-spin + mouse
+    const tilt = -0.32 + my * 0.22;
+    const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+    const cosX = Math.cos(tilt), sinX = Math.sin(tilt);
+
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
+      let x = it.ux * R, y = it.uy * R, z = it.uz * R;
+      // rotate Y
+      let x1 = x * cosY + z * sinY;
+      let z1 = -x * sinY + z * cosY;
+      // rotate X (tilt)
+      let y2 = y * cosX - z1 * sinX;
+      let z2 = y * sinX + z1 * cosX;
+      let x2 = x1;
+
+      const s = P / (P - z2);                          // perspective scale
+      const depth = (z2 + R) / (2 * R);                // 0 (back) .. 1 (front)
+
+      // Entrance: fly in from far outside, staggered.
+      const ep = reduce ? 1 : Math.min(1, Math.max(0, (t - (i / N) * STAGGER) / ENTER_DUR));
+      const e = easeOut(ep);
+      const radial = 1 + (1 - e) * 4.5;                // pushed outward early
+      const jit = (1 - e);
+
+      let px = x2 * s * radial + it.jx * jit;
+      let py = y2 * s * radial + it.jy * jit;
+      let scale = s * (1 + (1 - e) * 1.3);
+      if (it.el === hovered) scale *= 1.4;
+
+      const op = (0.30 + 0.70 * depth) * e;
+      const blur = (1 - depth) * 2.2;
+      const bright = it.el === hovered ? 1.6 : 1;
+
+      it.el.style.transform =
+        "translate(-50%,-50%) translate3d(" + px + "px," + py + "px,0) scale(" + scale + ")";
+      it.el.style.opacity = op;
+      it.el.style.zIndex = Math.round(depth * 100);
+      it.el.style.filter = "blur(" + blur + "px) brightness(" + bright + ")";
+      it.el.style.textShadow = "0 0 14px " + it.color + "aa, 0 0 4px " + it.color;
+    }
+
+    raf = requestAnimationFrame(render);
+  }
+
+  raf = requestAnimationFrame(render);
+  if (reduce) skipBtn.focus();
+
+  // Enter the site.
+  let dismissed = false;
+  function enter() {
+    if (dismissed) return;
+    dismissed = true;
+    overlay.classList.add("intro-hide");
+    document.body.classList.add("intro-done");
+    document.body.style.overflow = "";
+    setTimeout(function () {
+      if (raf) cancelAnimationFrame(raf);
+      overlay.style.display = "none";
+    }, 720);
+  }
+
+  document.body.style.overflow = "hidden";
+  overlay.addEventListener("click", enter);
+  skipBtn.addEventListener("click", function (e) { e.stopPropagation(); enter(); });
+
+  // Persistent seal -> opens the "How This Site Was Built" case study.
+  const seal = document.getElementById("seal-badge");
+  if (seal) {
+    // Reveal immediately so the seal is visible on the intro/animation screen too.
+    requestAnimationFrame(function () { seal.classList.add("seal-visible"); });
+    seal.addEventListener("click", function () {
+      enter(); // dismiss the intro if it's still up
+      if (typeof selectProject === "function") selectProject("ai-built-portfolio");
+    });
+    // Get out of the way while scrolling; fade back once it stops.
+    let sealTimer;
+    window.addEventListener("scroll", function () {
+      seal.classList.add("seal-scrolling");
+      clearTimeout(sealTimer);
+      sealTimer = setTimeout(function () { seal.classList.remove("seal-scrolling"); }, 550);
+    }, { passive: true });
+  }
+})();
 </script>
 
 </body>
